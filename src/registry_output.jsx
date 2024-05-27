@@ -1,12 +1,11 @@
-//import { ContextMenu, ContextMenuItem } from "./registry_context_menu.js";
 import React, { useEffect, useState, useContext } from 'react';
 import $ from 'jquery';
-import { objectOf, any, instanceOf, string } from 'prop-types';
+import { any, instanceOf, string } from 'prop-types';
 import { bigInt2str } from 'BigInt';
 import { RegistryValueType } from './registry_algos';
 import { ReducerContext } from './registry_reducer';
 
-const RegKey = ({ name, content }) =>
+export const RegKey = ({ name, content }) =>
 {
   const [state, dispatch] = useContext(ReducerContext);
   const handleClick = (e) =>
@@ -41,12 +40,17 @@ const RegKey = ({ name, content }) =>
       <ul className="key-items">
         {
           Object.keys(content).map(
-            (contentName, i) => (
+            (contentName) => (
               contentName === '__data__'
-                ? <RegDataList key={i} values={content[contentName]} />
+                ? (
+                  <RegDataList
+                    key={`rdl-${name}`}
+                    values={content[contentName]}
+                  />
+                )
                 : (
                   <RegKey
-                    key={i}
+                    key={`rk-${contentName}`}
                     name={contentName}
                     content={content[contentName]}
                   />
@@ -61,10 +65,10 @@ const RegKey = ({ name, content }) =>
 
 RegKey.propTypes = {
   name: string.isRequired,
-  content: objectOf(any).isRequired
+  content: instanceOf(Object).isRequired
 };
 
-const RegDataList = ({ values }) => (
+export const RegDataList = ({ values }) => (
   <li>
     <table className="data-list">
       <colgroup>
@@ -80,16 +84,14 @@ const RegDataList = ({ values }) => (
         </tr>
       </thead>
       <tbody>
-        {
-          values.map((data, i) => (
-            <RegData
-              key={i}
-              name={data.name}
-              type={data.type}
-              value={data.value}
-            />
-          ))
-        }
+        {values.map((data) => (
+          <RegData
+            key={`kd-${data.name}`}
+            name={data.name}
+            type={data.type}
+            value={data.value}
+          />
+        ))}
       </tbody>
     </table>
   </li>
@@ -99,7 +101,7 @@ RegDataList.propTypes = {
   values: instanceOf(Array).isRequired
 };
 
-const RegData = ({ name, type, value }) =>
+export const RegData = ({ name, type, value }) =>
 {
   const [displayValue, setDisplayValue] = useState();
   const [state, dispatch] = useContext(ReducerContext);
@@ -143,5 +145,3 @@ RegData.propTypes = {
   type: string.isRequired,
   value: any.isRequired
 };
-
-export { RegKey };

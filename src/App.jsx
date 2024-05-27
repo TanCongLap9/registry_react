@@ -1,21 +1,13 @@
-/* eslint-disable react/function-component-definition */
 import React, { useEffect, useReducer } from 'react';
-import { any, objectOf, instanceOf } from 'prop-types';
-import { EditorView, minimalSetup } from 'codemirror';
-import {
-  lineNumbers,
-  highlightActiveLine,
-  highlightActiveLineGutter,
-  ViewPlugin
-} from '@codemirror/view';
+import { instanceOf } from 'prop-types';
+import { EditorView, basicSetup } from 'codemirror';
+import { ViewPlugin } from '@codemirror/view';
 import REGISTRY_DATA_SAMPLE from './registry_data_sample';
 import { ContextMenu } from './registry_context_menu';
 import { RegKey } from './registry_output';
 import { ReducerContext, contentReducer } from './registry_reducer';
 
 let /** @type {EditorView} */ editor;
-
-// import {interpretRegistry} from "./registry_algos.js";
 
 // COMPONENTS
 const RegistryTextInput = () => (
@@ -26,6 +18,7 @@ const RegistryTextInput = () => (
     </div>
   </div>
 );
+
 const RegistryFileInput = () =>
 {
   const handleChange = (e) =>
@@ -62,7 +55,7 @@ const App = () =>
     content: REGISTRY_DATA_SAMPLE,
     tree: null,
     context: null,
-    contextType: null,
+    contextType: '',
     show: false,
     error: null
   });
@@ -79,15 +72,18 @@ const App = () =>
     editor = new EditorView({
       doc: REGISTRY_DATA_SAMPLE,
       extensions: [
-        minimalSetup,
-        lineNumbers(),
-        highlightActiveLine(),
-        highlightActiveLineGutter(),
+        basicSetup,
         // Listens to changes
         ViewPlugin.fromClass(class
         {
-          // eslint-disable-next-line no-useless-constructor, no-empty-function
-          constructor(/** @type {EditorView} */ view) { }
+          /* eslint-disable no-useless-constructor, no-empty-function,
+             no-unused-vars */
+          constructor(/** @type {EditorView} */ view)
+          {
+
+          }
+          /* eslint-enable no-useless-constructor, no-empty-function,
+             no-unused-vars */
 
           // eslint-disable-next-line class-methods-use-this
           update(/** @type {ViewUpdate} */ update)
@@ -109,13 +105,16 @@ const App = () =>
         </div>
         <div id="output">
           <h1>Output</h1>
-          <ErrorText error={state.error} />
-          <RegistryTreeView state={state} />
+          <ErrorText>{state.error}</ErrorText>
+          <RegistryTreeView>{state.tree}</RegistryTreeView>
         </div>
         <div
           id="context-menu-wrapper"
           tabIndex="0"
-          onBlur={() => dispatch({ type: 'SET_SHOW_CONTEXT', show: false })}
+          onBlur={() => dispatch({
+            type: 'SET_SHOW_CONTEXT',
+            show: false
+          })}
         >
           <ContextMenu
             context={state.context}
@@ -127,47 +126,45 @@ const App = () =>
   );
 };
 
-const ErrorText = ({ error }) =>
+const ErrorText = ({ children } = { children: null }) =>
 {
-  function format(error2)
+  function format(error)
   {
-    return `${error2.message}
- ${error2.lineNum} | ${error2.line}`;
+    return `${error.message}
+ ${error.lineNum} | ${error.line}`;
   }
   return (
     <pre id="error">
-      {error !== undefined && error !== null
-        && (console.error(format(error)), format(error))}
+      {children !== undefined && children !== null
+        && (console.error(format(children)), format(children))}
     </pre>
   );
 };
 
 ErrorText.propTypes = {
-  error: instanceOf(Error).isRequired
+  children: instanceOf(Error)
 };
 
-export const RegistryTreeView = ({ state }) => (
+export const RegistryTreeView = ({ children }) => (
   <div id="registry-tree">
     <ul id="root-path">
-      {
-        state.tree !== undefined && state.tree !== null
-          ? Object.keys(state.tree).map(
-            (name, i) => (
-              <RegKey
-                key={i}
-                name={name}
-                content={state.tree[name]}
-              />
-            )
+      {children !== undefined && children !== null
+        ? Object.keys(children).map(
+          (name) => (
+            <RegKey
+              key={`rk-${name}`}
+              name={name}
+              content={children[name]}
+            />
           )
-          : undefined
-        }
+        )
+        : undefined}
     </ul>
   </div>
 );
 
 RegistryTreeView.propTypes = {
-  state: objectOf(any).isRequired
+  children: instanceOf(Object)
 };
 
 export default App;

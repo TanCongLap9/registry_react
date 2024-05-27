@@ -2,14 +2,6 @@ import { createContext } from 'react';
 import $ from 'jquery';
 import { interpretRegistry } from './registry_algos';
 
-/** @enum {string} */
-export const ReducerActionType = {
-  SET_CONTENT: 'SET_CONTENT',
-  SET_CONTEXT: 'SET_CONTEXT',
-  SET_SHOW_CONTEXT: 'SET_SHOW_CONTEXT',
-  SET_ERROR: 'SET_ERROR'
-};
-
 export const ReducerContext = createContext();
 
 /**
@@ -18,14 +10,16 @@ export const ReducerContext = createContext();
  * Use the `dispatch` function returned from the `React.useReducer`,
  * don't call this directly.
  * @param {object} oldState The old state
- * @param {ReducerActionType} action Action type, which can be
+ * @param {object} action Contains properties specified by `type` property
+ * @param {'SET_CONTENT' | 'SET_CONTEXT' |
+ *         'SET_SHOW_CONTEXT' | 'SET_ERROR'} action.type
  * @return {object} The new state
  */
 export function contentReducer(oldState, action)
 {
   switch (action.type)
   {
-    case ReducerActionType.SET_CONTENT:
+    case 'SET_CONTENT':
       try
       {
         return {
@@ -39,7 +33,7 @@ export function contentReducer(oldState, action)
       {
         return { ...oldState, tree: null, error: e };
       }
-    case ReducerActionType.SET_CONTEXT:
+    case 'SET_CONTEXT':
       if (action.show)
       {
         $('#context-menu-wrapper')
@@ -62,7 +56,7 @@ export function contentReducer(oldState, action)
         contextType: action.contextType,
         show: action.show
       };
-    case ReducerActionType.SET_SHOW_CONTEXT:
+    case 'SET_SHOW_CONTEXT':
       if (action.show)
       {
         $('#context-menu-wrapper')
@@ -80,7 +74,7 @@ export function contentReducer(oldState, action)
         $('#context-menu-wrapper').fadeOut('fast');
       }
       return { ...oldState, show: action.show };
-    case ReducerActionType.SET_ERROR:
+    case 'SET_ERROR':
       return { ...oldState, error: action.error };
     default:
       return oldState;

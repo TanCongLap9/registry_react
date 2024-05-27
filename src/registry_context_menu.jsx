@@ -19,52 +19,59 @@ ContextMenuItem.propTypes = {
   callback: PropTypes.func.isRequired
 };
 
-export const ContextMenu = ({ context, contextType }) =>
+export const ContextMenu = (
+  { context, contextType } = { context: null, contextType: '' }
+) =>
 {
   const [value, setValue] = useState([]);
   useEffect(() =>
   {
-    const a = [
-      [
-        'Copy path', () =>
-        {
-          const self = $(context);
-          const keyParents = self.parents('.key');
-          navigator.clipboard.writeText(
-            keyParents.children('.key-name')
-              .toArray().map((elem) => elem.innerText).reverse()
-              .join('\\')
-          );
-        }
-      ]
-    ];
+    const menuItems = [{
+      name: 'copy-path',
+      display: 'Copy path',
+      callback: () =>
+      {
+        const self = $(context);
+        const keyParents = self.parents('.key');
+        navigator.clipboard.writeText(
+          keyParents.children('.key-name')
+            .toArray().map((elem) => elem.innerText).reverse()
+            .join('\\')
+        );
+      }
+    }];
     switch (contextType)
     {
       case 'key-name':
-        setValue(a);
+        setValue(menuItems);
         break;
       case 'data-name':
-        setValue(a);
+        setValue(menuItems);
         break;
       case 'data-type':
+        setValue([]);
         break;
       case 'data-value':
-        setValue(a);
+        setValue(menuItems);
         break;
       default:
         setValue([]);
     }
-  }, [context, contextType]);
-  return (
+  }, [contextType]);
+  return value.length !== 0 && (
     <ul className="context-menu flex-col">
-      {value.map(([name, callback], i) => (
-        <ContextMenuItem key={i} name={name} callback={callback} />
+      {value.map((menuItem) => (
+        <ContextMenuItem
+          key={`ctx-${menuItem.name}`}
+          name={menuItem.display}
+          callback={menuItem.callback}
+        />
       ))}
     </ul>
   );
 };
 
 ContextMenu.propTypes = {
-  context: PropTypes.objectOf(PropTypes.any).isRequired,
-  contextType: PropTypes.string.isRequired
+  context: PropTypes.instanceOf($),
+  contextType: PropTypes.string
 };

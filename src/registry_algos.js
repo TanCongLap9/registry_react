@@ -22,19 +22,19 @@ export function analyzeDataValue(rawValue, lines, lineNumber, skipRef)
 {
   /* eslint-disable no-nested-ternary, indent */
   let [value, type] = /^".*?"/.test(rawValue)
-  ? [rawValue.slice(1, -1), 'REG_SZ']
+  ? [rawValue.slice(1, -1), RegistryValueType.STRING]
   : rawValue.startsWith('dword:')
-  ? [rawValue.slice(6), 'REG_DWORD']
+  ? [rawValue.slice(6), RegistryValueType.DWORD]
   : rawValue.startsWith('hex(b):')
-  ? [rawValue.slice(7), 'REG_QWORD']
+  ? [rawValue.slice(7), RegistryValueType.QWORD]
   : rawValue.startsWith('hex(2):')
-  ? [rawValue.slice(7), 'REG_EXPAND_SZ']
+  ? [rawValue.slice(7), RegistryValueType.EXPANDABLE_STRING]
   : rawValue.startsWith('hex(7):')
-  ? [rawValue.slice(7), 'REG_MULTI_SZ']
+  ? [rawValue.slice(7), RegistryValueType.MULTI_LINE_STRING]
   : rawValue.startsWith('hex:')
-  ? [rawValue.slice(4), 'REG_BINARY']
+  ? [rawValue.slice(4), RegistryValueType.BINARY]
   : rawValue === 'hex(0):'
-  ? [null, 'REG_NONE']
+  ? [null, RegistryValueType.NONE]
   : [];
   /* eslint-enable no-nested-ternary, indent */
   if (!type) throw new TypeError(`Unknown value type: ${value}`);
