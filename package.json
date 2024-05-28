@@ -4,7 +4,7 @@
   "description": "Registry reader using ReactJS",
   "main": "index.js",
   "author": "TanCongLap9",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@babel/core": "^7.24.5",
     "@codemirror/state": "^6.4.1",
