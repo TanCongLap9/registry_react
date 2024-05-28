@@ -38,6 +38,6 @@ This tool helps you read Windows registry file (extension `.reg`) without having
 
 - Language: JavaScript
 
-- License: ISC
+- License: MIT
 
 - Dependencies used: [ReactJS](https://react.dev/), [JQuery](https://jquery.com/), [CodeMirror](https://codemirror.net/), [BigInt](https://www.npmjs.com/package/BigInt)
