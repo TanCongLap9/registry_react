@@ -1,6 +1,6 @@
-import { createContext } from 'react';
-import $ from 'jquery';
-import { interpretRegistry } from './registry_algos';
+import { createContext } from "react";
+import $ from "jquery";
+import { interpretRegistry } from "./registry_algos";
 
 export const ReducerContext = createContext();
 
@@ -15,66 +15,51 @@ export const ReducerContext = createContext();
  *         'SET_SHOW_CONTEXT' | 'SET_ERROR'} action.type
  * @return {object} The new state
  */
-export function contentReducer(oldState, action)
-{
-  switch (action.type)
-  {
-    case 'SET_CONTENT':
-      try
-      {
+export function contentReducer(oldState, action) {
+  switch (action.type) {
+    case "SET_CONTENT":
+      try {
         return {
           ...oldState,
           content: action.content,
           tree: interpretRegistry(action.content),
-          error: null
+          error: null,
         };
-      }
-      catch (e)
-      {
+      } catch (e) {
         return { ...oldState, tree: null, error: e };
       }
-    case 'SET_CONTEXT':
-      if (action.show)
-      {
-        $('#context-menu-wrapper')
-          .slideDown('fast')
-          .offset(
-            {
-              left: $(action.context).offset().left,
-              top: $(action.context).offset().top + 20
-            }
-          )
+    case "SET_CONTEXT":
+      if (action.show) {
+        $("#context-menu-wrapper")
+          .slideDown("fast")
+          .offset({
+            left: $(action.context).offset().left,
+            top: $(action.context).offset().top + 20,
+          })
           .focus();
-      }
-      else
-      {
-        $('#context-menu-wrapper').fadeOut('fast');
+      } else {
+        $("#context-menu-wrapper").fadeOut("fast");
       }
       return {
         ...oldState,
         context: action.context,
         contextType: action.contextType,
-        show: action.show
+        show: action.show,
       };
-    case 'SET_SHOW_CONTEXT':
-      if (action.show)
-      {
-        $('#context-menu-wrapper')
-          .slideDown('fast')
-          .offset(
-            {
-              left: $(action.context).offset().left,
-              top: $(action.context).offset().top + 20
-            }
-          )
+    case "SET_SHOW_CONTEXT":
+      if (action.show) {
+        $("#context-menu-wrapper")
+          .slideDown("fast")
+          .offset({
+            left: $(action.context).offset().left,
+            top: $(action.context).offset().top + 20,
+          })
           .focus();
-      }
-      else
-      {
-        $('#context-menu-wrapper').fadeOut('fast');
+      } else {
+        $("#context-menu-wrapper").fadeOut("fast");
       }
       return { ...oldState, show: action.show };
-    case 'SET_ERROR':
+    case "SET_ERROR":
       return { ...oldState, error: action.error };
     default:
       return oldState;

@@ -1,6 +1,9 @@
 # registry_react
 Registry reader using ReactJS
 
+## Demo
+https://txzv6l-3000.csb.app/
+
 ## Description
 This tool helps you read Windows registry file (extension `.reg`) without having to directly import the file into Registry Editor.
 
@@ -8,25 +11,39 @@ This tool helps you read Windows registry file (extension `.reg`) without having
 1. Install node
    
    Node can be installed from here: https://nodejs.org/en
+
+2. Clone the project into local machine
+
+   Download this project by clicking the buttom Code > Download ZIP, or if you prefer Git, execute this Git command:
+   ```
+   git clone https://github.com/TanCongLap9/registry_react
+   ```
+
+3. Build the project
+
+   Run the following command to build the project:
+   ```
+   npm run build
+   ```
+
+4. Install Live Server
    
-2. Install Live Server
-   
-   Run this command in the `cmd` prompt:
+   Run this command in the shell prompt:
    ```
    npm install live-server -g
    ```
 
-3. Start a local server in the `build` folder
+5. Start a local server in the `build` folder
    
    After installing Live Server, run this command to start a local server:
    ```
-   CD /D <path\to\registry_react>\build
+   cd path/to/registry_react/build
    live-server
    ```
 
    For example:
    ```
-   CD /D C:\my_projects\registry_react\build
+   cd C:\my_projects\registry_react\build
    live-server
    ```
 

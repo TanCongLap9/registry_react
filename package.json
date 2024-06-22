@@ -5,14 +5,6 @@
   "main": "index.js",
   "author": "TanCongLap9",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TanCongLap9/registry_react.git"
-  },
-  "bugs": {
-    "url": "https://github.com/TanCongLap9/registry_react/issues"
-  },
-  "homepage": "https://github.com/TanCongLap9/registry_react#readme"
   "dependencies": {
     "@babel/core": "^7.24.5",
     "@codemirror/state": "^6.4.1",
@@ -22,19 +14,13 @@
     "jquery": "^3.7.1",
     "prop-types": "^15.8.1",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.12",
     "@types/node": "^20.12.12",
     "@types/react": "18.2.38",
-    "@types/react-dom": "18.2.15",
-    "eslint": "6.8.0",
-    "eslint-config-airbnb": "18.2.1",
-    "eslint-plugin-import": "2.25.3",
-    "eslint-plugin-jsx-a11y": "6.5.1",
-    "eslint-plugin-react": "7.28.0",
-    "eslint-plugin-react-hooks": "4.3.0"
+    "@types/react-dom": "18.2.15"
   },
   "scripts": {
     "start": "react-scripts start",

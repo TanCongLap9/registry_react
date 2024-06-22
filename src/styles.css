@@ -1,29 +1,37 @@
 ul {
   list-style: none;
 }
+
 * {
   padding: 0;
   margin: 0;
 }
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+
 #root-path ul {
   padding: 0 20px;
 }
+
 #root-path {
   padding: 0;
 }
-.key, .data {
+
+.key,
+.data {
   position: relative;
   user-select: none;
 }
+
 .key-icon {
   font-size: 16px;
   color: darkgoldenrod;
   user-select: none;
   -webkit-user-select: none;
 }
+
 .key-rule {
   position: absolute;
   left: 8px;
@@ -33,22 +41,34 @@ body {
   background-color: black;
   height: calc(100% - 16px);
 }
-.key-name:hover, .key-icon:hover, .data-name:hover, .data-type:hover, .data-value:hover {
+
+.key-name:hover,
+.key-icon:hover,
+.data-name:hover,
+.data-type:hover,
+.data-value:hover {
   background-color: lightskyblue;
 }
+
 .data {
   color: #099;
 }
+
 .data-list th {
   user-select: none;
   -webkit-user-select: none;
 }
-.data-list td, .data-list th {
+
+.data-list td,
+.data-list th {
   padding-right: 10px;
 }
-.data-list tr td:last-child, .data-list tr th:last-child {
+
+.data-list tr td:last-child,
+.data-list tr th:last-child {
   padding-right: 0;
 }
+
 #context-menu-wrapper {
   background-color: #333;
   position: fixed;
@@ -57,6 +77,7 @@ body {
   outline: none;
   padding: 5px;
 }
+
 .context-menuitem {
   border: none;
   background-color: black;
@@ -65,9 +86,11 @@ body {
   cursor: pointer;
   margin-bottom: 2px;
 }
+
 .collapsed {
   list-style: "+ ";
 }
+
 #lines {
   font-family: Consolas;
   padding: 0 0 0 1ch;
@@ -77,58 +100,61 @@ body {
   width: 5ch;
   box-sizing: border-box;
 }
-#text-input {
-  /*position: relative;*/
-}
-#content {
-  /* font-family: Consolas;
-  font-size: 12pt;
-  border: none;
-  outline: none;
-  resize: none;
-  white-space: nowrap;
-  width: 100%;
-  overflow: hidden; */
-}
+
 #error {
   font-family: Consolas;
   color: red;
   font-size: 12pt;
 }
+
 .flex-row {
   display: flex;
   flex-flow: row;
 }
+
 .flex-col {
   display: flex;
   flex-flow: column;
 }
-html, body, #root, #double-container, #content {
+
+html,
+body,
+#root,
+#double-container,
+#content {
   height: 100%;
 }
+
 #text-input {
   height: 95%;
 }
+
 #editor {
   height: 100%;
   width: 50%;
 }
+
 #content {
   width: 100%;
 }
+
 #output {
   width: 50%;
 }
+
 #input-content {
   height: 90%;
   overflow: auto;
 }
+
 #input-file {
   height: 10%;
 }
+
 .cm-editor {
   height: 100%;
 }
+
 .cm-scroller {
   overflow: auto;
 }

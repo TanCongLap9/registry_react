@@ -1,11 +1,11 @@
-import React, { useEffect, useReducer } from 'react';
-import { instanceOf } from 'prop-types';
-import { EditorView, basicSetup } from 'codemirror';
-import { ViewPlugin } from '@codemirror/view';
-import REGISTRY_DATA_SAMPLE from './registry_data_sample';
-import { ContextMenu } from './registry_context_menu';
-import { RegKey } from './registry_output';
-import { ReducerContext, contentReducer } from './registry_reducer';
+import React, { useEffect, useReducer } from "react";
+import { instanceOf } from "prop-types";
+import { EditorView, basicSetup } from "codemirror";
+import { ViewPlugin } from "@codemirror/view";
+import REGISTRY_DATA_SAMPLE from "./registry_data_sample";
+import { ContextMenu } from "./registry_context_menu";
+import { RegKey } from "./registry_output";
+import { ReducerContext, contentReducer } from "./registry_reducer";
 
 let /** @type {EditorView} */ editor;
 
@@ -19,80 +19,66 @@ const RegistryTextInput = () => (
   </div>
 );
 
-const RegistryFileInput = () =>
-{
-  const handleChange = (e) =>
-  {
-    e.target.files[0].text()
-      .then((content) =>
-      {
-        editor.dispatch({
-          changes: {
-            from: 0,
-            to: editor.state.doc.length,
-            insert: content
-          }
-        });
+const RegistryFileInput = () => {
+  const handleChange = (e) => {
+    e.target.files[0].text().then((content) => {
+      editor.dispatch({
+        changes: {
+          from: 0,
+          to: editor.state.doc.length,
+          insert: content,
+        },
       });
+    });
   };
   return (
     <div id="input-file">
       <h2>Or import a file</h2>
-      <input
-        type="file"
-        id="registry-file"
-        onChange={handleChange}
-      />
+      <input type="file" id="registry-file" onChange={handleChange} />
     </div>
   );
 };
 
-const App = () =>
-{
+const App = () => {
   // <!-- Key: li.key ul -->
   // <!-- Value: li.data -->
   const [state, dispatch] = useReducer(contentReducer, {
     content: REGISTRY_DATA_SAMPLE,
     tree: null,
     context: null,
-    contextType: '',
+    contextType: "",
     show: false,
-    error: null
+    error: null,
   });
-  function updateContent()
-  {
+  function updateContent() {
     dispatch({
-      type: 'SET_CONTENT',
-      content: editor.state.doc.toString()
+      type: "SET_CONTENT",
+      content: editor.state.doc.toString(),
     });
   }
-  useEffect(() =>
-  {
+  useEffect(() => {
     if (editor) return;
     editor = new EditorView({
       doc: REGISTRY_DATA_SAMPLE,
       extensions: [
         basicSetup,
         // Listens to changes
-        ViewPlugin.fromClass(class
-        {
-          /* eslint-disable no-useless-constructor, no-empty-function,
+        ViewPlugin.fromClass(
+          class {
+            /* eslint-disable no-useless-constructor, no-empty-function,
              no-unused-vars */
-          constructor(/** @type {EditorView} */ view)
-          {
-
-          }
-          /* eslint-enable no-useless-constructor, no-empty-function,
+            constructor(/** @type {EditorView} */ view) {}
+            /* eslint-enable no-useless-constructor, no-empty-function,
              no-unused-vars */
 
-          // eslint-disable-next-line class-methods-use-this
-          update(/** @type {ViewUpdate} */ update)
-          {
-            if (update.docChanged) updateContent();
-          }
-        })
+            // eslint-disable-next-line class-methods-use-this
+            update(/** @type {ViewUpdate} */ update) {
+              if (update.docChanged) updateContent();
+            }
+          },
+        ),
       ],
-      parent: document.querySelector('#content')
+      parent: document.querySelector("#content"),
     });
     updateContent();
   }, [editor]);
@@ -111,10 +97,12 @@ const App = () =>
         <div
           id="context-menu-wrapper"
           tabIndex="0"
-          onBlur={() => dispatch({
-            type: 'SET_SHOW_CONTEXT',
-            show: false
-          })}
+          onBlur={() =>
+            dispatch({
+              type: "SET_SHOW_CONTEXT",
+              show: false,
+            })
+          }
         >
           <ContextMenu
             context={state.context}
@@ -126,45 +114,38 @@ const App = () =>
   );
 };
 
-const ErrorText = ({ children } = { children: null }) =>
-{
-  function format(error)
-  {
+const ErrorText = ({ children } = { children: null }) => {
+  function format(error) {
     return `${error.message}
  ${error.lineNum} | ${error.line}`;
   }
   return (
     <pre id="error">
-      {children !== undefined && children !== null
-        && (console.error(format(children)), format(children))}
+      {children !== undefined &&
+        children !== null &&
+        (console.error(format(children)), format(children))}
     </pre>
   );
 };
 
 ErrorText.propTypes = {
-  children: instanceOf(Error)
+  children: instanceOf(Error),
 };
 
 export const RegistryTreeView = ({ children }) => (
   <div id="registry-tree">
     <ul id="root-path">
       {children !== undefined && children !== null
-        ? Object.keys(children).map(
-          (name) => (
-            <RegKey
-              key={`rk-${name}`}
-              name={name}
-              content={children[name]}
-            />
-          )
-        )
+        ? Object.keys(children).map((name) => (
+            <RegKey key={`rk-${name}`} name={name} content={children[name]} />
+          ))
         : undefined}
     </ul>
   </div>
 );
 
 RegistryTreeView.propTypes = {
-  children: instanceOf(Object)
+  children: instanceOf(Object),
 };
 
 export default App;
